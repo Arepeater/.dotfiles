@@ -17,3 +17,9 @@ alias cp='cp -iv'
 alias mv='mv -iv'
 alias rm='rm -i'
 alias la='ls -alh'
+
+# +--------+
+# | python |
+# +--------+
+
+alias python='python3'
