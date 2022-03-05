@@ -76,7 +76,5 @@ chsh -s $(which zsh)
 
 ##配置sshkey登陆
 
-
-
-
+#test
 
