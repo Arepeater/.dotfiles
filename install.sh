@@ -55,12 +55,10 @@ ${PACKAGE_INSTALL[int]} curl wget sudo htop git zsh
 #配置zsh+插件
 ##[1]备份原文件：
 
-git clone https://github.com/Arepeater/.dotfiles.git $HOME/dotfiles/
-mv dotfiles/.zshenv $HOME/
+git clone https://github.com/Arepeater/.dotfiles.git $HOME/
+mv .dotfiles/.zshenv $HOME/
 source $HOME/.zshenv
-mkdir $HOME/.dotfiles/
-mv dotfiles/zsh $DOTFILES
-${PACKAGE_INSTALL[int]} zsh
+
 
 #更换默认Shell为zsh
 chsh -s $(which zsh)
