@@ -1,5 +1,3 @@
-echo "Hello World!"
-
 #引用快捷键
 # +---------+
 # # | ALIASES |
@@ -7,13 +5,15 @@ echo "Hello World!"
 #
 source $ZDOTDIR/aliases.zsh
 
+#配置颜色
 # +--------+
-# # | COLORS |
-# # +--------+
+# | COLORS |
+# +--------+
 #
 # # Override colors
 eval "$(dircolors -b $ZDOTDIR/dircolors.zsh)"
 
+#修改命令行显示效果
 # +--------+
 # | PROMPT |
 # +--------+
@@ -24,14 +24,15 @@ source $ZDOTDIR/prompt/prompt_purification_setup.zsh
 
 autoload -U compinit; compinit
 
-
+#参数候选
 # +------------+
-# # | COMPLETION |
-# # +------------+
+# | COMPLETION |
+# +------------+
 #
 source $ZDOTDIR/completion/completion_person.zsh
 
+#额外插件
 #Plugins
-source /usr/share/autojump/autojump.zsh
+#source /usr/share/autojump/autojump.zsh
 source $ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $ZDOTDIR/plugins/fsh/fast-syntax-highlighting.plugin.zsh

@@ -1,12 +1,19 @@
 #!/bin/bash
 # 一些全局变量
 
+
+# $DOTFILES = $HOME/.dotfiles
+#
+#
+
 # ver="2.0.4"
 # changeLog="增加安装ShadowSocks脚本，BBR支持IBM LinuxONE"
 arch=`uname -m`
 virt=`systemd-detect-virt`
 kernelVer=`uname -r`
 TUN=$(cat /dev/net/tun 2>&1 | tr '[:upper:]' '[:lower:]')
+Github_Proxy="https://ghproxy.com/"
+
 
 #判断操作系统
 CMD=("$(grep -i pretty_name /etc/os-release 2>/dev/null | cut -d \" -f2)" "$(hostnamectl 2>/dev/null | grep -i system | cut -d : -f2)""$(lsb_release -sd 2>/dev/null)""$(grep -i description /etc/lsb-release 2>/dev/null | cut -d \" -f2)""$(grep . /etc/redhat-release 2>/dev/null)""$(grep . /etc/issue 2>/dev/null | cut -d \\ -f1 | sed '/^[ ]*$/d')")
@@ -55,26 +62,32 @@ ${PACKAGE_INSTALL[int]} curl wget sudo htop git zsh
 #配置zsh+插件
 ##[1]备份原文件：
 
-git clone https://github.com/Arepeater/.dotfiles.git $HOME/
-mv .dotfiles/.zshenv $HOME/
+git clone "$Github_Proxy"https://github.com/Arepeater/.dotfiles.git $HOME/.dotfiles
+mv $HOME/.dotfiles/.zshenv $HOME/
 source $HOME/.zshenv
-
-
+${PACKAGE_INSTALL[int]} autojump
+git clone "$Github_Proxy"https://github.com/zdharma-continuum/fast-syntax-highlighting $ZDOTDIR/plugins/fsh
+git clone "$Github_Proxy"https://github.com/zsh-users/zsh-autosuggestions $ZDOTDIR/plugins/zsh-autosuggestions
 #更换默认Shell为zsh
 chsh -s $(which zsh)
 
-
-
-
-
 #SSH配置
-##修改端口
-
-
-
+#更改端口为：20223,关闭密码登陆，只能密钥登陆
+mv /etc/ssh/sshd_config $DOTFILES/oldfiles.bak
+wget -O /etc/ssh/sshd_config "$Github_Proxy"https://raw.githubusercontent.com/Arepeater/.dotfiles/main/ssh/sshd_config /etc/ssh
 
 
 ##配置sshkey登陆
+:<<EOF
+if [ ! -d "$HOME/.ssh" ]
+then
+    mkdir $HOME/.ssh
+    touch $HOME/.ssh/authorized_keys
+else
+    mv $HOME/.ssh/authorized_keys /$DOTFILES/oldfiles.bak
+fi
+echo "ssh-rsa xxxx" > $HOME/.ssh/authorized_keys
+chomd 400 touch $HOME/.ssh/authorized_keys
+EOF
 
-#test
 
