@@ -14,6 +14,9 @@ kernelVer=`uname -r`
 TUN=$(cat /dev/net/tun 2>&1 | tr '[:upper:]' '[:lower:]')
 Github_Proxy="https://ghproxy.com/"
 
+msgbox=""
+erromesgbox=""
+
 
 #判断操作系统
 CMD=("$(grep -i pretty_name /etc/os-release 2>/dev/null | cut -d \" -f2)" "$(hostnamectl 2>/dev/null | grep -i system | cut -d : -f2)""$(lsb_release -sd 2>/dev/null)""$(grep -i description /etc/lsb-release 2>/dev/null | cut -d \" -f2)""$(grep . /etc/redhat-release 2>/dev/null)""$(grep . /etc/issue 2>/dev/null | cut -d \\ -f1 | sed '/^[ ]*$/d')")
@@ -38,6 +41,7 @@ yellow(){
     echo -e "\033[33m\033[01m$1\033[0m"
 }
 
+
 # 数组判空以及赋值
 for i in "${CMD[@]}"; do
     SYS="$i" && [[ -n $SYS ]] && break  #监测SYS是否为0，不为0则返回true
@@ -59,13 +63,15 @@ ${PACKAGE_INSTALL[int]} curl wget sudo htop git zsh
 #    then ${PACKAGE_INSTALL[int]} autojump fonts-powerline
 #fi
 
+
+
 #配置zsh+插件
 ##[1]备份原文件：
 
 git clone "$Github_Proxy"https://github.com/Arepeater/.dotfiles.git $HOME/.dotfiles
 mv $HOME/.dotfiles/.zshenv $HOME/
 source $HOME/.zshenv
-${PACKAGE_INSTALL[int]} autojump
+#${PACKAGE_INSTALL[int]} autojump
 git clone "$Github_Proxy"https://github.com/zdharma-continuum/fast-syntax-highlighting $ZDOTDIR/plugins/fsh
 git clone "$Github_Proxy"https://github.com/zsh-users/zsh-autosuggestions $ZDOTDIR/plugins/zsh-autosuggestions
 #更换默认Shell为zsh
@@ -75,7 +81,7 @@ chsh -s $(which zsh)
 #更改端口为：20223,关闭密码登陆，只能密钥登陆
 mv /etc/ssh/sshd_config $DOTFILES/oldfiles.bak
 wget -O /etc/ssh/sshd_config "$Github_Proxy"https://raw.githubusercontent.com/Arepeater/.dotfiles/main/ssh/sshd_config /etc/ssh
-
+systemctl restart sshd
 
 ##配置sshkey登陆
 :<<EOF
