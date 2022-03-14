@@ -97,3 +97,6 @@ chomd 400 touch $HOME/.ssh/authorized_keys
 EOF
 
 
+
+
+#test
