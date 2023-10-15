@@ -94,7 +94,7 @@ git clone "$GithubMirror"https://github.com/Arepeater/.dotfiles.git ${HOME}/.dot
 
 # Copy the default config file if not present already
 # includes
-source ${HOME}/.dotfiles/zsh/zshenv
+source ${HOME}/.dotfiles/zsh/.zshenv
 source ${HOME}/.dotfiles/colors.sh
 
 # Install
