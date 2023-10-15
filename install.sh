@@ -59,26 +59,25 @@ done
 # Check incoming
 while [[ $# -ge 1 ]]; do
   case $1 in
-    -v|--ver)
-      shift
-      tmpVER="$1"
-      shift
-      ;;
     --mirror)
       shift
-      if [[ $# -ge 1 ]] && [[ $1 != -* ]]; then
+      if [[ $# -ge 1 && $1 != -* ]]; then
         GithubMirror="$1"
+        shift
       else 
         GithubMirror="https://ghproxy.com/"
       fi
-      shift
       ;;
     --tiny)
       shift
-      if [[ $# -ge 1 ]] && [[ $1 != -* && $1 == "1" ]]; then
-        isTINY_ZSH="1"
+      if [[ $# -eq 0 || $1 != "0" ]]; then
+          isTINY_ZSH='1'
+          # If the next argument is not another option, treat it as an argument to this option and skip it using shift
+          [[ $# -ge 1 && $1 != -* ]] && shift
+      else
+          isTINY_ZSH='0'
+          shift
       fi
-      shift
       ;;
     *)
       if [[ "$1" != 'error' ]]; then echo -ne "\nInvaild option: '$1'\n\n"; fi
