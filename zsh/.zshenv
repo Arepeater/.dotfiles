@@ -7,11 +7,10 @@
 export TERM='rxvt-256color'
 export DOTFILES="$HOME/.dotfiles"
 export WORKSPACE="$HOME/workspace"
+export isTINY_ZSH='0'
 
 # Close the compinit for /etc/zsh/zshrc
 skip_global_compinit=1
-
-[ -f "$DOTFILES/install_config" ] && source "$DOTFILES/install_config"
 
 # XDG
 export XDG_CONFIG_HOME=$HOME/.config

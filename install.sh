@@ -3,6 +3,10 @@
 ## Reference_SRC:https://github.com/Phantas0s/.dotfiles/blob/master/install.sh
 ## Author:Arepeater
 
+# Some global variables
+export GithubMirror=''
+export isTINY_ZSH='0'
+
 # presentation
 echo -e "
 ${yellow}
@@ -69,9 +73,16 @@ while [[ $# -ge 1 ]]; do
       fi
       shift
       ;;
+    --tiny)
+      shift
+      if [[ $# -ge 1 ]] && [[ $1 != -* && $1 == "1" ]]; then
+        isTINY_ZSH="1"
+      fi
+      shift
+      ;;
     *)
       if [[ "$1" != 'error' ]]; then echo -ne "\nInvaild option: '$1'\n\n"; fi
-      echo -ne " Usage:\n\tbash $(basename $0)\t--mirror [\033[33m\033[04mmirror address\033[0m]\n\t\t\t\t\n"
+      echo -ne " Usage:\n\tbash $(basename $0)\t--mirror [\033[33m\033[04mmirror address\033[0m]\n\t\t\t-tiny [\033[04m0/1\033[0m]\n\t\t\t\t\n"
       exit 1;
       ;;
     esac

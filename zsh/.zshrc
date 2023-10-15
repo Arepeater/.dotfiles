@@ -22,12 +22,17 @@ compinit -d $ZSH_CACHE/.zcompdump
 source $DOTFILES/zsh/completion/completion_person.zsh
 
 # Plugins
-source /usr/share/autojump/autojump.zsh
+if command -v autojump &>/dev/null; then
+    source /usr/share/autojump/autojump.zsh
+fi
 source $DOTFILES/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $DOTFILES/zsh/plugins/fsh/fast-syntax-highlighting.plugin.zsh
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f $DOTFILES/zsh/.p10k.zsh ]] || source $DOTFILES/zsh/.p10k.zsh
-source $DOTFILES/zsh/.powerlevel10k/powerlevel10k.zsh-theme
+
+if [[ $isTINY_ZSH -eq "0" ]]; then
+    # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+    [[ ! -f $DOTFILES/zsh/.p10k.zsh ]] || source $DOTFILES/zsh/.p10k.zsh
+    source $DOTFILES/zsh/.powerlevel10k/powerlevel10k.zsh-theme
+fi
 
 # Use emacs keybindings even if our EDITOR is set to vi
 #bindkey -e
