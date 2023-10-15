@@ -12,8 +12,9 @@ git clone "$GithubMirror"https://github.com/zsh-users/zsh-autosuggestions $DOTFI
 if [[ ${isTINY_ZSH} != "1" ]]; then
     git clone "$GithubMirror"https://github.com/romkatv/powerlevel10k.git $DOTFILES/zsh/.powerlevel10k
 else
-    sed -i 's/isTINY_ZSH=.*/isTINY_ZSH='1'/' $HOME/.zshenv
+    export isTINY_ZSH='1'
 fi
 
 # Switch the default shell
-chsh -s $(which zsh) && zsh
+chsh -s $(which zsh)
+zsh
