@@ -3,12 +3,6 @@
 ## Reference_SRC:https://github.com/Phantas0s/.dotfiles/blob/master/install.sh
 ## Author:Arepeater
 
-# Copy the default config file if not present already
-# includes
-source ./zsh/zshenv
-source ./colors.sh
-export GithubMirror=''
-
 # presentation
 echo -e "
 ${yellow}
@@ -77,15 +71,21 @@ while [[ $# -ge 1 ]]; do
       ;;
     *)
       if [[ "$1" != 'error' ]]; then echo -ne "\nInvaild option: '$1'\n\n"; fi
-      echo -ne " Usage:\n\tbash $(basename $0)\t-d/--debian [\033[33m\033[04mdists-name\033[0m]\n\t\t\t\t-u/--ubuntu [\033[04mdists-name\033[0m]\n\t\t\t\t-c/--centos [\033[04mdists-name\033[0m]\n\t\t\t\t-v/--ver [32/i386|64/\033[33m\033[04mamd64\033[0m] [\033[33m\033[04mdists-verison\033[0m]\n\t\t\t\t--ip-addr/--ip-gate/--ip-mask\n\t\t\t\t-apt/-yum/--mirror\n\t\t\t\t-dd/--image\n\t\t\t\t-p [linux password]\n\t\t\t\t-port [linux ssh port]\n"
+      echo -ne " Usage:\n\tbash $(basename $0)\t--mirror [\033[33m\033[04mmirror address\033[0m]\n\t\t\t\t\n"
       exit 1;
       ;;
     esac
 done
 
-# INSTALL dependence
+# Install dependence
 ${PACKAGE_UPDATE[int]}
-${PACKAGE_INSTALL[int]} autojump wget vim htop zsh
+${PACKAGE_INSTALL[int]} autojump wget vim htop zsh git
+git clone "$GithubMirror"https://github.com/Arepeater/.dotfiles.git ${HOME}/.dotfiles
+
+# Copy the default config file if not present already
+# includes
+source ${HOME}/.dotfiles/zsh/zshenv
+source ${HOME}/.dotfiles/colors.sh
 
 # Install
 . "$DOTFILES/install/install-zsh.sh"

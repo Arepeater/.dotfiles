@@ -55,4 +55,4 @@ fi
 #export GPG_TTY="$(tty)"
 
 ## Fixed window name
-DISABLE_AUTO_TITLE=true
+# DISABLE_AUTO_TITLE=true
