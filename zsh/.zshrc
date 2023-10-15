@@ -3,31 +3,31 @@ mkdir -p ~/.cache/zsh
 export ZSH_CACHE="$HOME/.cache/zsh"
 
 # Set up the ALIASES
-source $ZDOTDIR/aliases.zsh
+source $DOTFILES/zsh/aliases.zsh
 
 # Override COLORS
-eval "$(dircolors -b $ZDOTDIR/dircolors.zsh)"
+eval "$(dircolors -b $DOTFILES/zsh/dircolors.zsh)"
 
 # Use modern PROMPT
 autoload -Uz promptinit
 promptinit
 prompt adam1
 
-fpath=($ZDOTDIR/prompt $fpath)
-source $ZDOTDIR/prompt/prompt_purification_setup.zsh
+fpath=($DOTFILES/zsh/prompt $fpath)
+source $DOTFILES/zsh/prompt/prompt_purification_setup.zsh
 
 # Use modern COMPLETION
 autoload -Uz compinit
 compinit -d $ZSH_CACHE/.zcompdump
-source $ZDOTDIR/completion/completion_person.zsh
+source $DOTFILES/zsh/completion/completion_person.zsh
 
 # Plugins
 source /usr/share/autojump/autojump.zsh
-source $ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $ZDOTDIR/plugins/fsh/fast-syntax-highlighting.plugin.zsh
+source $DOTFILES/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $DOTFILES/zsh/plugins/fsh/fast-syntax-highlighting.plugin.zsh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
-source $ZDOTDIR/.powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -f $DOTFILES/zsh/.p10k.zsh ]] || source $DOTFILES/zsh/.p10k.zsh
+source $DOTFILES/zsh/.powerlevel10k/powerlevel10k.zsh-theme
 
 # Use emacs keybindings even if our EDITOR is set to vi
 #bindkey -e
