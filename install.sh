@@ -1,20 +1,15 @@
 #!/usr/bin/env bash
 
-# Reference_SRC:https://github.com/Phantas0s/.dotfiles/blob/master/install.sh
+## Reference_SRC:https://github.com/Phantas0s/.dotfiles/blob/master/install.sh
+## Author:Arepeater
 
 # Copy the default config file if not present already
-
-############
-# includes #
-############
-
+# includes
 source ./zsh/zshenv
 source ./colors.sh
+export GithubMirror=''
 
-################
-# presentation #
-################
-
+# presentation
 echo -e "
 ${yellow}
 
@@ -46,9 +41,51 @@ if [ $# -ne 1 ] || [ "$1" != "-y" ];
         read key;
 fi
 
-###########
-# INSTALL #
-###########
+# Check OS
+REGEX=("debian|astra" "ubuntu" "centos|red hat|kernel|oracle linux|alma|rocky" "'amazon linux'" "fedora" "arch" "freebsd")
+RELEASE=("Debian" "Ubuntu" "CentOS" "CentOS" "Fedora" "Arch" "FreeBSD")
+PACKAGE_UPDATE=("! apt-get update && apt-get --fix-broken install -y && apt-get update" "apt-get update" "yum -y update" "yum -y update" "yum -y update" "pacman -Sy" "pkg update")
+PACKAGE_INSTALL=("apt-get -y install" "apt-get -y install" "yum -y install" "yum -y install" "yum -y install" "pacman -Sy --noconfirm --needed" "pkg install -y")
+PACKAGE_REMOVE=("apt-get -y remove" "apt-get -y remove" "yum -y remove" "yum -y remove" "yum -y remove" "pacman -Rsc --noconfirm" "pkg delete")
+PACKAGE_UNINSTALL=("apt-get -y autoremove" "apt-get -y autoremove" "yum -y autoremove" "yum -y autoremove" "yum -y autoremove" "" "pkg autoremove")
+CMD=("$(grep -i pretty_name /etc/os-release 2>/dev/null | cut -d \" -f2)" "$(hostnamectl 2>/dev/null | grep -i system | cut -d : -f2)" "$(lsb_release -sd 2>/dev/null)" "$(grep -i description /etc/lsb-release 2>/dev/null | cut -d \" -f2)" "$(grep . /etc/redhat-release 2>/dev/null)" "$(grep . /etc/issue 2>/dev/null | cut -d \\ -f1 | sed '/^[ ]*$/d')" "$(grep -i pretty_name /etc/os-release 2>/dev/null | cut -d \" -f2)" "$(uname -s)")
+SYS="${CMD[0]}"
+[[ -n $SYS ]] || exit 1
+for ((int = 0; int < ${#REGEX[@]}; int++)); do
+    if [[ $(echo "$SYS" | tr '[:upper:]' '[:lower:]') =~ ${REGEX[int]} ]]; then
+        SYSTEM="${RELEASE[int]}"
+        [[ -n $SYSTEM ]] && break
+    fi
+done
+
+# Check incoming
+while [[ $# -ge 1 ]]; do
+  case $1 in
+    -v|--ver)
+      shift
+      tmpVER="$1"
+      shift
+      ;;
+    --mirror)
+      shift
+      if [[ $# -ge 1 ]] && [[ $1 != -* ]]; then
+        GithubMirror="$1"
+      else 
+        GithubMirror="https://ghproxy.com/"
+      fi
+      shift
+      ;;
+    *)
+      if [[ "$1" != 'error' ]]; then echo -ne "\nInvaild option: '$1'\n\n"; fi
+      echo -ne " Usage:\n\tbash $(basename $0)\t-d/--debian [\033[33m\033[04mdists-name\033[0m]\n\t\t\t\t-u/--ubuntu [\033[04mdists-name\033[0m]\n\t\t\t\t-c/--centos [\033[04mdists-name\033[0m]\n\t\t\t\t-v/--ver [32/i386|64/\033[33m\033[04mamd64\033[0m] [\033[33m\033[04mdists-verison\033[0m]\n\t\t\t\t--ip-addr/--ip-gate/--ip-mask\n\t\t\t\t-apt/-yum/--mirror\n\t\t\t\t-dd/--image\n\t\t\t\t-p [linux password]\n\t\t\t\t-port [linux ssh port]\n"
+      exit 1;
+      ;;
+    esac
+done
+
+# INSTALL dependence
+${PACKAGE_UPDATE[int]}
+${PACKAGE_INSTALL[int]} autojump wget vim htop zsh
 
 # Install
 . "$DOTFILES/install/install-zsh.sh"

@@ -25,7 +25,7 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export GIT_REVIEW_BASE=master # See gitconfig
 
 # Set ssh-agent, use keychain escrow keys
-eval `keychain --eval --agents ssh id_rsa id_rsa_github`
+# eval `keychain --eval --agents ssh id_rsa id_rsa_github`
 
 # PATH
 export PATH="$HOME/.poetry/bin:$PATH"
